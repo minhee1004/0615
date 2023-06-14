@@ -5,10 +5,10 @@ class Ball extends GameObject {
         this.falled = false;
 
         //container,width,height,x,y,bg
-        this.leftSensor = new LeftSensor(this.container, 1, 30, this.x, this.y, "");
-        this.rightSensor = new RightSensor(this.container, 1, 30, this.x + this.width, this.y, "");
-        this.topSensor = new TopSensor(this.container, 30, 1, this.x, this.y, "");
-        this.bottomSensor = new BottomSensor(this.container, 30, 1, this.x, this.y + this.height, "");
+        this.leftSensor = new LeftSensor(this.container, 1, 10, this.x, this.y, "");
+        this.rightSensor = new RightSensor(this.container, 1, 10, this.x + this.width, this.y, "");
+        this.topSensor = new TopSensor(this.container, 10, 1, this.x, this.y, "");
+        this.bottomSensor = new BottomSensor(this.container, 10, 1, this.x, this.y + this.height, "");
     }
 
     hitRemoveBrick() {
@@ -22,10 +22,9 @@ class Ball extends GameObject {
                 //배열에서 제거
                 brickArray.splice(index, 1);
 
-            //this.container.removeChild(brick.leftSensor.div);
-            //this.container.removeChild(brick.rightSensor.div);
-            //this.container.removeChild(brick.topSensor.div);
-            //this.container.removeChild(brick.bottomSensor.div);
+                //점수올리기
+                setScore();
+                break;
                 
             }
         }
@@ -52,10 +51,10 @@ class Ball extends GameObject {
         this.x += this.velX;
         this.y += this.velY;
 
-        if (this.x >= 500 - 30 || this.x <= 0) {
+        if (this.x >= 500 - 15 || this.x <= 0) {
             this.velX = -this.velX;
         }
-        if (this.y >= 800 - 30 || this.y <= 0) {
+        if (this.y >= 800 - 15 || this.y <= 0) {
             this.velY = -this.velY;
         }
 
@@ -101,7 +100,7 @@ class Ball extends GameObject {
         this.hitCheckBrick();
         this.hitRemoveBrick() ;
        
-        if (this.y > 750) {
+        if (this.y > 600) {
             //화면에서 제거 
             this.container.removeChild(this.img);
 

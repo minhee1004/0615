@@ -6,18 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알카노이드 test</title>
     <style>
-        body {
-            margin: 0px
+        body {margin: 0px}
+
+        #content{
+            width: 700px;
+            height: 700px;
+            background: url(./images/bg.jpg);
+            background-size:100%;
+            margin: auto;
         }
 
+        #header{
+            width: 100%;
+            height: 80px;
+            text-align: right;
+            text-shadow:10px 10px 20px rgb(247, 247, 174);
+            font-weight: bold;
+            font-size: 30px;
+            box-sizing: border-box;
+            padding-top: 20px;
+            padding-right: 100px;
+            float: left;
+            color: rgb(250, 202, 70);
+        }
+
+        /*wrapper 게임플레이 화면*/
         #wrapper {
             width: 500px;
-            height: 800px;
-            background: rgb(180, 214, 253);
+            height: 600px;
+            background: black;
             margin: auto;
             position: relative;
             overflow: hidden;
+        
         }
+    
     </style>
     <script src="./GameObject.js"></script>
     <script src="./Bar.js"></script>
@@ -28,37 +51,38 @@
     <script src="./RightSensor.js"></script>
     <script src="./TopSensor.js"></script>
     <script src="./BottomSensor.js"></script>
+    <script src="./BarSensor.js"></script>
     <script src="../js/lib.js"></script>
     <script>
         let wrapper;
+        let header;
         let ball; //주인공
         let flag = false; //루프수행  
         let bar;
-
+        let score=0;
         let brickArray = [];
         let ballArray = [];
-
+    
         
-
-
+        
         function createBall() {
-            let ball = new Ball(wrapper, "./images/ball.png", 30, 30, bar.getX() + 10, bar.getY() - 30, 10, -10);
+            let ball = new Ball(wrapper, "./images/ball.png", 15, 15, bar.getX() + 15, bar.getY() - 15, 5, -5);
             //alert("닫으면 이동");
             ballArray.push(ball);
         }
 
 
         function createBrick() {
-
-            for (let i = 0; i < 12; i++) {
+            for(let a=0; a<3; a++){
+            for (let i = 0; i <20; i++) {
                 //container, src, width, height,x,y,velX,velY
-                brickArray.push(new Brick(wrapper, "./images/brick.png", 42, 42, i * 42, 100, 0, 0));
-
+                brickArray.push(new Brick(wrapper, "./images/brick.png", 25, 20, i * 25, a*20+50, 0, 0));
+            }
             }
         }
 
         function createBar() {
-            bar = new Bar(wrapper, "./images/bar.png", 50, 10, 225, 700, 0, 0);
+            bar = new Bar(wrapper, "./images/bar.png", 50, 10, 225, 500, 0, 0);
 
         }
 
@@ -66,17 +90,20 @@
             bar.velX = n;
 
         }
+
         function setScore(){
-            score+=10;
-            header.innerText=score;
+            score+=1;
+            header.innerText="score:"+score;
         }
 
         function init() {
+            header = document.getElementById("header");
             wrapper = document.getElementById("wrapper");
             
             createBar(); //바 생성
             createBall(); //공 생성
             createBrick(); //벽돌생성
+            
         }
 
         function loop() {
@@ -126,7 +153,11 @@
 </head>
 
 <body>
-    <div id="wrapper"></div>
+    <div id="content">
+        <div id="header" style="filter:blur(0.5px)">score</div>
+        <div id="hp"></div>
+        <div id="wrapper"></div>
+    </div>
 </body>
 
 </html>

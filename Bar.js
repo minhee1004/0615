@@ -4,7 +4,7 @@ class Bar extends GameObject{
         
 
         //container,width,height,x,y,bg
-        this.barSensor=new TopSensor(this.container,50,1,this.x,this.y,"");
+        this.barSensor=new TopSensor(this.container,40,1,this.x+5,this.y,"");
     }      
     tick(){
         this.x+=this.velX;
