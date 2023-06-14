@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알카노이드 test</title>
+    <style>
+        body {
+            margin: 0px
+        }
+
+        #wrapper {
+            width: 500px;
+            height: 800px;
+            background: rgb(180, 214, 253);
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+    <script src="./GameObject.js"></script>
+    <script src="./Bar.js"></script>
+    <script src="./Ball.js"></script>
+    <script src="./Brick.js"></script>
+    <script src="./Sensor.js"></script>
+    <script src="./LeftSensor.js"></script>
+    <script src="./RightSensor.js"></script>
+    <script src="./TopSensor.js"></script>
+    <script src="./BottomSensor.js"></script>
+    <script src="../js/lib.js"></script>
+    <script>
+        let wrapper;
+        let ball; //주인공
+        let flag = false; //루프수행  
+        let bar;
+
+        let brickArray = [];
+        let ballArray = [];
+
+        
+
+
+        function createBall() {
+            let ball = new Ball(wrapper, "./images/ball.png", 30, 30, bar.getX() + 10, bar.getY() - 30, 10, -10);
+            //alert("닫으면 이동");
+            ballArray.push(ball);
+        }
+
+
+        function createBrick() {
+
+            for (let i = 0; i < 12; i++) {
+                //container, src, width, height,x,y,velX,velY
+                brickArray.push(new Brick(wrapper, "./images/brick.png", 42, 42, i * 42, 100, 0, 0));
+
+            }
+        }
+
+        function createBar() {
+            bar = new Bar(wrapper, "./images/bar.png", 50, 10, 225, 700, 0, 0);
+
+        }
+
+        function moveX(n) {
+            bar.velX = n;
+
+        }
+        function setScore(){
+            score+=10;
+            header.innerText=score;
+        }
+
+        function init() {
+            wrapper = document.getElementById("wrapper");
+            
+            createBar(); //바 생성
+            createBall(); //공 생성
+            createBrick(); //벽돌생성
+        }
+
+        function loop() {
+            bar.tick(); //항상호출
+            bar.render();
+
+            if (flag) { //게임시작후
+                for (let i = 0; i < ballArray.length; i++) {
+                    ballArray[i].tick();
+                    ballArray[i].render();
+                }
+            } else {
+                for (let i = 0; i < ballArray.length; i++) {
+                    ballArray[i].setPosition(bar.getX() + 10, bar.getY() - 30);
+                }
+            }
+
+        }
+
+
+        addEventListener("load", function () {
+            init();
+            setInterval("loop()", 30);
+
+            document.body.addEventListener("keydown", function (e) {
+                //console.log(e.keyCode);
+                switch (e.keyCode) {
+                    case 27: flag = !flag; break; //esc
+                    case 32: flag = !flag; break; //space
+                    case 37: moveX(-10); break;//좌
+                    case 39: moveX(10); break;//우
+
+                }
+            });
+            document.body.addEventListener("keyup", function (e) {
+                switch (e.keyCode) {
+                    case 37: moveX(0); break;
+                    case 39: moveX(0); break;
+                }
+
+            });
+
+        });
+
+
+    </script>
+</head>
+
+<body>
+    <div id="wrapper"></div>
+</body>
+
+</html>
