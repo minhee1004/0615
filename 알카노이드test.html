@@ -6,21 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알카노이드 test</title>
     <style>
-        body {margin: 0px}
+        body {
+            margin: 0px
+        }
 
-        #content{
+        #content {
             width: 700px;
-            height: 700px;
+            height: 750px;
             background: url(./images/bg.jpg);
-            background-size:100%;
+            background-size: 100%;
             margin: auto;
         }
 
-        #header{
-            width: 100%;
+        #header1 {
+            width: 350px;
+            height: 80px;
+            text-align: left;
+            text-shadow: 10px 10px 20px rgb(247, 247, 174);
+            font-weight: bold;
+            font-size: 30px;
+            box-sizing: border-box;
+            padding-top: 20px;
+            padding-left: 100px;
+            float: left;
+            color: rgb(250, 202, 70);
+            
+        }
+
+        #header2 {
+            width: 350px;
             height: 80px;
             text-align: right;
-            text-shadow:10px 10px 20px rgb(247, 247, 174);
+            text-shadow: 10px 10px 20px rgb(247, 247, 174);
             font-weight: bold;
             font-size: 30px;
             box-sizing: border-box;
@@ -38,9 +55,16 @@
             margin: auto;
             position: relative;
             overflow: hidden;
-        
+
         }
-    
+
+        #footer{
+            width: 100%;
+            height: 50px;
+            padding-right: 100px;
+            margin: auto;
+           
+        }
     </style>
     <script src="./GameObject.js"></script>
     <script src="./Bar.js"></script>
@@ -55,16 +79,19 @@
     <script src="../js/lib.js"></script>
     <script>
         let wrapper;
-        let header;
+        let header1;
+        let header2;
         let ball; //주인공
         let flag = false; //루프수행  
         let bar;
-        let score=0;
+        let score = 0;
         let brickArray = [];
         let ballArray = [];
-    
-        
-        
+        let gameover;
+        let endimg;
+
+
+
         function createBall() {
             let ball = new Ball(wrapper, "./images/ball.png", 15, 15, bar.getX() + 15, bar.getY() - 15, 5, -5);
             //alert("닫으면 이동");
@@ -73,11 +100,11 @@
 
 
         function createBrick() {
-            for(let a=0; a<3; a++){
-            for (let i = 0; i <20; i++) {
-                //container, src, width, height,x,y,velX,velY
-                brickArray.push(new Brick(wrapper, "./images/brick.png", 25, 20, i * 25, a*20+50, 0, 0));
-            }
+            for (let a = 0; a < 5; a++) {
+                for (let i = 0; i < 20; i++) {
+                    //container, src, width, height,x,y,velX,velY
+                    brickArray.push(new Brick(wrapper, "./images/brick.png", 25, 20, i * 25, a * 20 + 50, 0, 0));
+                }
             }
         }
 
@@ -91,19 +118,46 @@
 
         }
 
-        function setScore(){
-            score+=1;
-            header.innerText="score:"+score;
+        function setScore() {
+            score += 1;
+            header2.innerText = "score:" + score;
+        }
+
+        function createGameOver(){
+            gameover=new GameObject(wrapper, "./images/game-over.png",100,50,200,200,0,0);
+         
+
         }
 
         function init() {
-            header = document.getElementById("header");
+            header1 = document.getElementById("header1");
+            header2 = document.getElementById("header2");
             wrapper = document.getElementById("wrapper");
-            
+
             createBar(); //바 생성
             createBall(); //공 생성
             createBrick(); //벽돌생성
-            
+
+            // 레벨을 설정
+            level = 1;
+
+            // header1에 레벨을 표시
+            header1.innerText = "Level: " + level;
+
+        }
+
+        function createEndImg(){
+            endimg=document.createElement("img");
+            endimg.src="./images/game-over.png";
+            endimg.style.width=500+"px";
+            endimg.style.height=600+"px";
+            endimg.style.display="none";
+
+            endimg.style.zIndex=1000;
+            wrapper.appendChild(endimg);
+
+
+
         }
 
         function loop() {
@@ -124,8 +178,11 @@
         }
 
 
+
+
         addEventListener("load", function () {
             init();
+            createEndImg();
             setInterval("loop()", 30);
 
             document.body.addEventListener("keydown", function (e) {
@@ -154,9 +211,10 @@
 
 <body>
     <div id="content">
-        <div id="header" style="filter:blur(0.5px)">score</div>
-        <div id="hp"></div>
+        <div id="header1" style="filter:blur(0.5px)"></div>
+        <div id="header2" style="filter:blur(0.5px)">score</div>
         <div id="wrapper"></div>
+        <div id="footer"></div>
     </div>
 </body>
 

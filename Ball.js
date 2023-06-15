@@ -25,7 +25,7 @@ class Ball extends GameObject {
                 //점수올리기
                 setScore();
                 break;
-                
+
             }
         }
     }
@@ -50,7 +50,7 @@ class Ball extends GameObject {
     tick() {
         this.x += this.velX;
         this.y += this.velY;
-
+        //console.log(this.x,this.y);
         if (this.x >= 500 - 15 || this.x <= 0) {
             this.velX = -this.velX;
         }
@@ -98,8 +98,8 @@ class Ball extends GameObject {
         //console.log
         this.hitCheckBar();
         this.hitCheckBrick();
-        this.hitRemoveBrick() ;
-       
+        this.hitRemoveBrick();
+
         if (this.y > 600) {
             //화면에서 제거 
             this.container.removeChild(this.img);
@@ -114,7 +114,10 @@ class Ball extends GameObject {
             this.container.removeChild(this.rightSensor.div);
             this.container.removeChild(this.topSensor.div);
             this.container.removeChild(this.bottomSensor.div);
+
+            endimg.style.display="block";
+    
         }
     }
-     
+
 }

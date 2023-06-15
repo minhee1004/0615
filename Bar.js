@@ -8,7 +8,7 @@ class Bar extends GameObject{
     }      
     tick(){
         this.x+=this.velX;
-        this.y+=this.velY;  
+        this.y+=this.velY;
 
         this.barSensor.tick(this);
         this.barSensor.render();
