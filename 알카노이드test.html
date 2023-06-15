@@ -65,6 +65,14 @@
             margin: auto;
            
         }
+
+        #hp{
+            width:20px;
+            height:20px;
+            margin-left:10px;
+           padding-right: 10;
+            position: relative;
+        }
     </style>
     <script src="./GameObject.js"></script>
     <script src="./Bar.js"></script>
@@ -78,6 +86,9 @@
     <script src="./BarSensor.js"></script>
     <script src="../js/lib.js"></script>
     <script>
+        let hp;
+        let hpArray=[];//체력상자가 모아질 배열
+        let h=-1;//hpArray를 접근할 index 
         let wrapper;
         let header1;
         let header2;
@@ -87,18 +98,50 @@
         let score = 0;
         let brickArray = [];
         let ballArray = [];
-        let gameover;
         let endimg;
 
+        function createHp(){
+            for(let i=0;i<3;i++){
+            let img=document.createElement("img");
+            img.src = "./images/ball.png";
+            img.style.width = 50 + "px";
+            img.style.height = 50 + "px";
 
+             //hp에 부착하기 (절대위치로)
+             img.style.position="absolute";
+             img.style.left=(15 + i * 50)+"px";
+             img.style.top=15+"px";
+                
+                    hp.appendChild(img);
+                    
+                    //생성된 hp를 일차원배열에 담아두자 
+                    hpArray.push(img);
+            }
 
-        function createBall() {
-            let ball = new Ball(wrapper, "./images/ball.png", 15, 15, bar.getX() + 15, bar.getY() - 15, 5, -5);
-            //alert("닫으면 이동");
-            ballArray.push(ball);
+        }
+
+        function createEndImg(){
+            endimg=document.createElement("img");
+            endimg.src="./images/over.jpg";
+            endimg.style.width=500+"px";
+            endimg.style.height=600+"px";
+            endimg.style.left=300+"px";
+            endimg.style.top=300+"px";
+          
+ 
+            endimg.style.display="none";
+            endimg.style.zIndex -= 1000;
+            wrapper.appendChild(endimg);
+ 
         }
 
 
+        function createBall() {
+            let ball = new Ball(wrapper, "./images/ball.png", 15, 15, bar.getX() + 18, bar.getY() - 15, 5, -5);
+            //alert("닫으면 이동");
+            ballArray.push(ball);
+        }
+                    
         function createBrick() {
             for (let a = 0; a < 5; a++) {
                 for (let i = 0; i < 20; i++) {
@@ -123,16 +166,20 @@
             header2.innerText = "score:" + score;
         }
 
+        /*
         function createGameOver(){
-            gameover=new GameObject(wrapper, "./images/game-over.png",100,50,200,200,0,0);
+            gameover=new GameOver(wrapper, "./images/game-over.png",100,50,200,200,0,0);
          
-
         }
+        */
+        
+    
 
         function init() {
             header1 = document.getElementById("header1");
             header2 = document.getElementById("header2");
             wrapper = document.getElementById("wrapper");
+            hp = document.getElementById("hp");
 
             createBar(); //바 생성
             createBall(); //공 생성
@@ -146,19 +193,6 @@
 
         }
 
-        function createEndImg(){
-            endimg=document.createElement("img");
-            endimg.src="./images/game-over.png";
-            endimg.style.width=500+"px";
-            endimg.style.height=600+"px";
-            endimg.style.display="none";
-
-            endimg.style.zIndex=1000;
-            wrapper.appendChild(endimg);
-
-
-
-        }
 
         function loop() {
             bar.tick(); //항상호출
@@ -177,12 +211,10 @@
 
         }
 
-
-
-
         addEventListener("load", function () {
             init();
             createEndImg();
+            createHp();
             setInterval("loop()", 30);
 
             document.body.addEventListener("keydown", function (e) {
@@ -214,7 +246,9 @@
         <div id="header1" style="filter:blur(0.5px)"></div>
         <div id="header2" style="filter:blur(0.5px)">score</div>
         <div id="wrapper"></div>
-        <div id="footer"></div>
+        <div id="footer">
+            <div id="hp"></div>
+        </div>
     </div>
 </body>
 

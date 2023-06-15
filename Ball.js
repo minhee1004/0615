@@ -99,6 +99,7 @@ class Ball extends GameObject {
         this.hitCheckBar();
         this.hitCheckBrick();
         this.hitRemoveBrick();
+    
 
         if (this.y > 600) {
             //화면에서 제거 
@@ -115,7 +116,17 @@ class Ball extends GameObject {
             this.container.removeChild(this.topSensor.div);
             this.container.removeChild(this.bottomSensor.div);
 
+           //게임오버 이미지 
             endimg.style.display="block";
+
+            //hp를 없애자
+            wrapper.removeChild(this.hpArray[i]);
+            hpArray.splice(index, 1);
+
+            h++;
+            hpArray[h].style.background="red";
+
+
     
         }
     }
